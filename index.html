@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Prompt KAK Puskesmas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Body and Container Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0f4f8 0%, #e0e7ee 100%); /* Soft gradient background */
+            color: #334155;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to top */
+        }
+        .container {
+            max-width: 900px;
+            width: 100%;
+            margin: 20px auto; /* Add some top/bottom margin */
+            background-color: #ffffff;
+            border-radius: 16px; /* More rounded corners */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Stronger, softer shadow */
+            padding: 30px 40px; /* More generous padding */
+            box-sizing: border-box;
+        }
+
+        /* Typography and Headings */
+        h1 {
+            font-size: 2.5rem; /* Larger title */
+            font-weight: 700;
+            color: #2563eb; /* A vibrant blue */
+            text-align: center;
+            margin-bottom: 25px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        p {
+            color: #475569;
+            line-height: 1.6;
+        }
+        .section-title {
+            font-size: 1.8rem; /* Slightly larger section titles */
+            font-weight: 700;
+            color: #1e3a8a; /* Darker blue for sections */
+            margin-top: 35px;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #bfdbfe; /* More prominent separator */
+            padding-bottom: 12px;
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 60px; /* Short underline effect */
+            height: 3px;
+            background-color: #2563eb;
+            border-radius: 2px;
+        }
+        h2 {
+            font-size: 1.75rem; /* For "Prompt untuk AI" */
+            font-weight: 600;
+            color: #2563eb;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        h3 { /* For Kegiatan Pokok titles within blocks */
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1e3a8a;
+            margin-bottom: 15px;
+        }
+        h4 { /* For Lintas Program/Sektor titles */
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #334155;
+            margin-top: 25px;
+            margin-bottom: 12px;
+        }
+
+        /* Form Elements */
+        label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+            color: #334155;
+            font-size: 0.95rem;
+        }
+        input[type="text"],
+        textarea,
+        select { /* Apply styles to select as well */
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            color: #475569;
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background-color: #f8fafc;
+        }
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+            outline: none;
+            background-color: #ffffff;
+        }
+        textarea {
+            min-height: 80px; /* Slightly less aggressive default */
+            resize: vertical;
+        }
+
+        /* Buttons */
+        .copy-button, .add-button, .remove-button {
+            padding: 12px 22px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .copy-button {
+            background-color: #2563eb;
+            color: white;
+            margin-top: 25px;
+        }
+        .copy-button:hover {
+            background-color: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        .add-button {
+            background-color: #10b981; /* Green */
+            color: white;
+            margin-top: 15px;
+        }
+        .add-button:hover {
+            background-color: #059669;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .remove-button {
+            background-color: #ef4444; /* Red */
+            color: white;
+            margin-bottom: 0; /* Align with inputs */
+            padding: 8px 15px; /* Smaller padding for inline removal */
+            font-size: 0.85rem;
+            box-shadow: none; /* No shadow for small buttons */
+        }
+        .remove-button:hover {
+            background-color: #dc2626;
+            transform: translateY(-1px);
+        }
+
+        /* Specific Input Group Styles */
+        .flex-container {
+            display: flex;
+            gap: 25px; /* More space between flex items */
+            flex-wrap: wrap;
+        }
+        .flex-item {
+            flex: 1 1 calc(50% - 12.5px); /* Adjusted for gap */
+            min-width: 280px; /* Ensure good minimum width */
+        }
+        .activity-block, .reason-issue-group, .lintas-group-wrapper {
+            border: 1px solid #e2e8f0;
+            padding: 20px; /* More padding */
+            margin-bottom: 25px;
+            border-radius: 12px; /* Consistent rounded corners */
+            background-color: #fdfefe; /* Very light background */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+        }
+
+        .rincian-item {
+            display: flex;
+            align-items: center;
+            gap: 12px; /* More space */
+            margin-bottom: 10px;
+        }
+        .rincian-item input {
+            flex-grow: 1;
+        }
+
+        /* Reason/Issue Group Specifics */
+        .reason-issue-group {
+            padding: 15px;
+        }
+        .reason-issue-input-pair {
+            display: flex;
+            align-items: flex-start; /* Align textareas at the top */
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        .reason-issue-input-pair input[type="checkbox"] {
+            margin-top: 12px; /* Align with textarea start */
+        }
+        .reason-issue-input-pair label {
+            padding-top: 10px; /* Align label with textarea start */
+        }
+        .reason-issue-input-pair textarea {
+            flex-grow: 1;
+            margin-bottom: 0;
+        }
+
+        /* Lintas Program/Sektor Specifics */
+        .lintas-group-wrapper {
+            border: 1px dashed #a5b4fc; /* Distinct dashed border */
+            background-color: #eff6ff; /* Light blue background for emphasis */
+            padding: 15px;
+        }
+        .lintas-type-title {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: #334155;
+            border-bottom: 1px dotted #cbd5e1;
+            padding-bottom: 5px;
+        }
+        .lintas-entry-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .lintas-entry-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .lintas-entry-option input[type="checkbox"] {
+            width: auto;
+            margin-bottom: 0;
+            height: auto;
+            min-width: auto;
+        }
+        .lintas-entry-option label {
+            display: inline;
+            margin-bottom: 0;
+            font-weight: normal;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        .lintas-manual-textarea {
+            flex-grow: 1;
+            margin-top: 5px; /* Space between checkbox and textarea */
+            min-height: 40px;
+            padding: 8px;
+            font-size: 0.85rem;
+        }
+        .lintas-entry-option .remove-button {
+            margin-left: auto; /* Push remove button to the right */
+        }
+
+        /* Prompt Output Box */
+        .prompt-output-box {
+            background-color: #e9f0f7; /* Slightly darker shade */
+            border: 1px solid #c0d1e4;
+            padding: 25px;
+            border-radius: 12px;
+            font-family: 'Consolas', 'Monaco', 'monospace'; /* Monospace for code-like output */
+            font-size: 0.9rem;
+            color: #1a202c;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+            line-height: 1.5;
+        }
+
+        /* Gantt Table */
+        .gantt-table {
+            width: 100%;
+            border-collapse: separate; /* Use separate for rounded corners */
+            border-spacing: 0; /* Remove default spacing */
+            margin-top: 20px;
+            border-radius: 10px; /* Rounded table corners */
+            overflow: hidden; /* Hide overflow to make rounded corners effective */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+        .gantt-table th, .gantt-table td {
+            border: 1px solid #e0e7ee; /* Lighter border */
+            padding: 12px 8px; /* More padding */
+            text-align: center;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        .gantt-table th {
+            background-color: #dbeafe; /* Light blue header */
+            font-weight: 600;
+            color: #1e3a8a;
+        }
+        .gantt-table tbody tr:nth-child(even) {
+            background-color: #f8faff; /* Zebra striping */
+        }
+        .gantt-table tbody tr:hover {
+            background-color: #f0f4f8; /* Hover effect */
+        }
+        .gantt-table td .single-checkbox {
+            height: auto; /* Allow auto height for inner flex */
+        }
+        .gantt-table td input[type="checkbox"] {
+            transform: scale(1.2); /* Slightly larger checkboxes */
+        }
+
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .section-title {
+                font-size: 1.5rem;
+                margin-top: 30px;
+                margin-bottom: 20px;
+            }
+            .flex-item {
+                flex-basis: 100%;
+                min-width: unset;
+            }
+            .gantt-table {
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            }
+            .gantt-table thead, .gantt-table tbody, .gantt-table th, .gantt-table td, .gantt-table tr {
+                display: block; /* Make table responsive by stacking */
+            }
+            .gantt-table thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            .gantt-table tr {
+                border: 1px solid #e0e7ee;
+                margin-bottom: 15px;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+            .gantt-table td {
+                border: none;
+                border-bottom: 1px solid #e0e7ee;
+                position: relative;
+                padding-left: 50%;
+                text-align: right;
+            }
+            .gantt-table td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 0;
+                width: 45%;
+                padding-left: 15px;
+                font-weight: 600;
+                text-align: left;
+                color: #1e3a8a;
+            }
+            .gantt-table td:last-child {
+                border-bottom: none;
+            }
+            .lintas-entry-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                padding-bottom: 15px;
+            }
+            .lintas-entry-item > div {
+                width: 100%;
+            }
+            .lintas-checkbox-option {
+                margin-left: 0;
+                margin-top: 5px;
+                width: 100%; /* Ensure checkboxes take full width */
+            }
+            .remove-button {
+                margin-left: 0;
+                width: 100%;
+                margin-top: 10px;
+            }
+            .lintas-group-wrapper {
+                padding: 15px; /* Adjust padding for small screens */
+            }
+            .reason-issue-input-pair {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .reason-issue-input-pair label {
+                width: auto; /* Allow label to size naturally */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Generator Prompt KAK Puskesmas</h1>
+        <p class="mb-6 text-gray-700 text-center">Isi formulir di bawah ini untuk menghasilkan prompt KAK yang dapat Anda gunakan dengan AI.</p>
+
+        <div class="section-title">Informasi Umum KAK</div>
+        <label for="namaPuskesmas">Nama Puskesmas:</label>
+        <input type="text" id="namaPuskesmas" placeholder="Contoh: Puskesmas Sehat Selalu" oninput="updatePrompt()">
+
+        <label for="cluster">Klaster:</label>
+        <select id="cluster" onchange="updatePrompt()">
+            <option value="">Pilih Klaster</option>
+            <option value="cluster manajemen">Cluster manajemen</option>
+            <option value="cluster Ibu dan Anak">Cluster Ibu dan Anak</option>
+            <option value="Cluster dewasa & lansia">Cluster dewasa & lansia</option>
+            <option value="Cluster pencegahan dan pengendalian Penyakit">Cluster pencegahan dan pengendalian Penyakit</option>
+            <option value="lintas cluster">Lintas cluster</option>
+        </select>
+
+        <label for="program">Program (Contoh: Gizi, KIA, P2P):</label>
+        <input type="text" id="program" placeholder="Contoh: Program Gizi" oninput="updatePrompt()">
+
+        <label for="namaKegiatan">Nama/Judul Kegiatan:</label>
+        <input type="text" id="namaKegiatan" placeholder="Contoh: Penyuluhan Gizi Balita Stunting" oninput="updatePrompt()">
+
+        <label for="tahun">Tahun Kegiatan:</label>
+        <input type="text" id="tahun" placeholder="Contoh: 2025" oninput="updatePrompt()">
+
+
+        <div class="section-title">I. Pendahuluan</div>
+        <label for="jenisKegiatan">Jenis Kegiatan (misal: penyuluhan, pemeriksaan):</label>
+        <input type="text" id="jenisKegiatan" placeholder="Contoh: Penyuluhan Gizi Balita" oninput="updatePrompt()">
+
+        <div class="reason-issue-group">
+            <label>Mengapa kegiatan ini penting?</label>
+            <div class="reason-issue-input-pair">
+                <input type="checkbox" id="pentingIdentifikasiCheck" onchange="updatePrompt()"> <label for="pentingIdentifikasiCheck">Tolong identifikasi</label>
+            </div>
+            <div class="reason-issue-input-pair">
+                <input type="checkbox" id="pentingManualCheck" onchange="toggleManualTextarea('pentingnyaKegiatanManualText', this.checked); updatePrompt();"> <label for="pentingManualCheck">Manual</label>
+                <textarea id="pentingnyaKegiatanManualText" class="hidden" placeholder="Masukkan mengapa penting secara manual..." oninput="updatePrompt()"></textarea>
+            </div>
+        </div>
+
+        <div class="reason-issue-group">
+            <label>Masalah umum di masyarakat terkait kegiatan ini?</label>
+            <div class="reason-issue-input-pair">
+                <input type="checkbox" id="masalahIdentifikasiCheck" onchange="updatePrompt()"> <label for="masalahIdentifikasiCheck">Tolong identifikasi</label>
+            </div>
+            <div class="reason-issue-input-pair">
+                <input type="checkbox" id="masalahManualCheck" onchange="toggleManualTextarea('masalahUmumManualText', this.checked); updatePrompt();"> <label for="masalahManualCheck">Manual</label>
+                <textarea id="masalahUmumManualText" class="hidden" placeholder="Masukkan masalah umum secara manual..." oninput="updatePrompt()"></textarea>
+            </div>
+        </div>
+
+        <label for="visiMisiPuskesmas">Hubungan dengan visi/misi Puskesmas:</label>
+        <textarea id="visiMisiPuskesmas" placeholder="Contoh: Mendukung terwujudnya masyarakat sehat dan mandiri sesuai visi Puskesmas..." oninput="updatePrompt()"></textarea>
+
+        <div class="section-title">II. Latar Belakang</div>
+        <label for="dataWilayah">Data wilayah terkait (jumlah penduduk, ibu hamil, balita, dll):</label>
+        <textarea id="dataWilayah" placeholder="Contoh: Jumlah penduduk 15.000 jiwa, 300 ibu hamil, 500 balita..." oninput="updatePrompt()"></textarea>
+
+        <label for="dataCapaianSebelumnya">Data capaian sebelumnya (jika ada):</label>
+        <textarea id="dataCapaianSebelumnya" placeholder="Contoh: Cakupan ASI eksklusif tahun lalu 60%..." oninput="updatePrompt()"></textarea>
+
+        <label for="dasarPenyusunan">Dasar penyusunan (RUK/RPK tahun berapa):</label>
+        <input type="text" id="dasarPenyusunan" placeholder="Contoh: RUK Tahun 2024" oninput="updatePrompt()">
+
+        <div class="section-title">III. Tujuan</div>
+        <label for="tujuanUmum">Tujuan Umum (Tujuan besar kegiatan):</label>
+        <textarea id="tujuanUmum" placeholder="Contoh: Meningkatnya derajat kesehatan masyarakat di wilayah kerja Puskesmas..." oninput="updatePrompt()"></textarea>
+
+        <label for="tujuanKhusus">Tujuan Khusus (Hasil spesifik yang ingin dicapai sesuai sasaran):</label>
+        <textarea id="tujuanKhusus" placeholder="Contoh: 1. Meningkatnya pengetahuan ibu balita tentang gizi seimbang. 2. Terlaksananya praktik pemberian makan bayi dan anak (PMBA) yang benar..." oninput="updatePrompt()"></textarea>
+
+        <div class="section-title">IV. Sasaran</div>
+        <label for="targetKegiatan">Siapa target kegiatan? (Contoh: 30 ibu hamil dari 4 desa)</label>
+        <input type="text" id="targetKegiatan" placeholder="Contoh: 50 ibu balita dari Desa Maju dan Desa Sejahtera" oninput="updatePrompt()">
+
+        <div class="section-title">V. Kegiatan Pokok dan Rincian Kegiatan</div>
+        <p class="mb-4 text-gray-600">Bagian ini menjelaskan secara rinci kegiatan-kegiatan utama yang akan dilaksanakan beserta dengan rincian pelaksanaannya untuk mencapai tujuan yang telah ditetapkan. Silakan tambahkan setiap kegiatan pokok beserta rinciannya. Mohon sajikan dalam format tabel yang rapi di dokumen Word.</p>
+        <div id="kegiatanListContainer">
+            <!-- Kegiatan items will be rendered here by JS -->
+        </div>
+        <button onclick="addKegiatanPokok()" class="add-button bg-green-600 hover:bg-green-700">Tambah Kegiatan Pokok Baru</button>
+
+        <div class="section-title mt-8">VI. Cara Melaksanakan Kegiatan dan Dukungan</div>
+        <p class="mb-4 text-gray-600">Bagian ini menguraikan bagaimana setiap kegiatan pokok yang tercantum dalam Bab V akan dilaksanakan, termasuk pihak-pihak yang bertanggung jawab, lokasi, waktu, serta sumber daya yang diperlukan. Mohon sajikan dalam bentuk narasi yang jelas untuk setiap kegiatan, mengacu pada kegiatan di Bab V.</p>
+        <div id="caraMelaksanakanContainer">
+            <!-- Dynamic fields for each activity from V will be rendered here -->
+        </div>
+
+        <div class="section-title mt-8">VII. Jadwal Kegiatan Tahunan (Gantt Chart)</div>
+        <p class="mb-4 text-gray-600">Untuk memastikan pelaksanaan kegiatan yang terencana dan terkoordinasi, berikut adalah jadwal kegiatan tahunan dalam format tabel Gantt. Tandai dengan 'X' pada bulan pelaksanaan setiap kegiatan pokok yang tercantum di Bab V. Mohon sajikan dalam format tabel Gantt yang rapi di dokumen Word.</p>
+        <div id="jadwalGanttContainer">
+            <!-- Gantt chart table will be rendered here -->
+        </div>
+
+        <div class="section-title mt-8">VIII. Evaluasi Pelaksanaan dan Pelaporan</div>
+        <label for="bagaimanaEvaluasi">Bagaimana evaluasinya?</label>
+        <textarea id="bagaimanaEvaluasi" placeholder="Contoh: Pengisian kuesioner pre-post test, observasi praktik, wawancara..." oninput="updatePrompt()"></textarea>
+
+        <label for="siapaEvaluasi">Siapa yang evaluasi?</label>
+        <input type="text" id="siapaEvaluasi" placeholder="Contoh: Penanggung Jawab Program Gizi" oninput="updatePrompt()">
+
+        <label for="kapanLapor">Kapan lapor?</label>
+        <input type="text" id="kapanLapor" placeholder="Contoh: Setiap akhir bulan setelah kegiatan" oninput="updatePrompt()">
+
+        <label for="laporSiapa">Lapor ke siapa?</label>
+        <input type="text" id="laporSiapa" placeholder="Contoh: Kepala Puskesmas" oninput="updatePrompt()">
+
+        <div class="section-title">IX. Pencatatan, Pelaporan, dan Evaluasi Kegiatan</div>
+        <label for="formatRegister">Format register yang digunakan:</label>
+        <input type="text" id="formatRegister" placeholder="Contoh: Register kohort balita" oninput="updatePrompt()">
+
+        <label for="jadwalPelaporan">Jadwal pelaporan (tanggal):</label>
+        <input type="text" id="jadwalPelaporan" placeholder="Contoh: Tanggal 5 setiap bulan" oninput="updatePrompt()">
+
+        <label for="evaluasiBerkala">Evaluasi berkala (bulanan/triwulan):</label>
+        <input type="text" id="evaluasiBerkala" placeholder="Contoh: Triwulan" oninput="updatePrompt()">
+
+        <h2 class="text-xl font-bold mt-8 mb-4 text-blue-700">Prompt untuk AI:</h2>
+        <div class="prompt-output-box">
+            <pre id="generatedPrompt" class="prompt-output"></pre>
+        </div>
+        <button onclick="copyPrompt()" class="copy-button">Salin Prompt</button>
+        <div id="messageBox" class="message-box">Prompt berhasil disalin!</div>
+    </div>
+
+    <script>
+        // Array to store all activity data
+        let activities = [];
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+
+        // Function to toggle manual input textarea visibility and update prompt
+        function toggleManualTextarea(textareaId, isChecked) {
+            const textarea = document.getElementById(textareaId);
+            if (textarea) {
+                textarea.classList.toggle('hidden', !isChecked);
+                if (!isChecked) {
+                    textarea.value = ''; // Clear content when hidden
+                }
+            }
+        }
+
+        // Function to add a new Kegiatan Pokok
+        function addKegiatanPokok() {
+            const newActivityId = `activity-${Date.now()}`;
+            activities.push({
+                id: newActivityId,
+                pokok: '',
+                rincian: [''], // Start with one empty rincian
+                pelaksana: '',
+                peranPelaksana: '',
+                lintasProgram: [{ identifikasi: false, manual: false, manualText: '' }], // Simplified for LP
+                lintasSektor: [{ identifikasi: false, manual: false, manualText: '' }],   // Simplified for LS
+                lokasiWaktu: '',
+                alatBahan: '',
+                sumberBiaya: '',
+                jadwal: months.reduce((acc, month) => ({ ...acc, [month]: false }), {}) // Single checkbox for Gantt
+            });
+            renderAllSections();
+            updatePrompt();
+        }
+
+        // Function to add a new Rincian Kegiatan for a specific Kegiatan Pokok
+        function addRincian(activityId) {
+            const activity = activities.find(a => a.id === activityId);
+            if (activity) {
+                activity.rincian.push('');
+                renderKegiatanSection(); // Re-render only V to update rincian
+                updatePrompt();
+            }
+        }
+
+        // Function to remove a Rincian Kegiatan
+        function removeRincian(activityId, rincianIndex) {
+            const activity = activities.find(a => a.id === activityId);
+            if (activity && activity.rincian.length > 1) { // Ensure at least one rincian remains
+                activity.rincian.splice(rincianIndex, 1);
+                renderKegiatanSection();
+                updatePrompt();
+            } else if (activity && activity.rincian.length === 1) {
+                activity.rincian[0] = ''; // Clear the last one instead of removing if only one
+                renderKegiatanSection();
+                updatePrompt();
+            }
+        }
+
+        // Function to add a new Lintas Program entry
+        function addLintasProgram(activityId) {
+            const activity = activities.find(a => a.id === activityId);
+            if (activity) {
+                activity.lintasProgram.push({ identifikasi: false, manual: false, manualText: '' });
+                renderCaraMelaksanakanSection(); // Re-render section VI to update
+                updatePrompt();
+            }
+        }
+
+        // Function to remove a Lintas Program entry
+        function removeLintasProgram(activityId, index) {
+            const activity = activities.find(a => a.id === activityId);
+            if (activity && activity.lintasProgram.length > 0) {
+                activity.lintasProgram.splice(index, 1);
+                renderCaraMelaksanakanSection();
+                updatePrompt();
+            }
+        }
+
+        // Function to update Lintas Program data (checkboxes, manual text)
+        function updateLintasProgramData(activityId, index, field, value) {
+            const activity = activities.find(a => a.id === activityId);
+            if (activity && activity.lintasProgram[index]) {
+                activity.lintasProgram[index][field] = value;
+                updatePrompt();
+                if (field === 'manual') {
+                    // Toggle visibility of the associated textarea for manual role
+                    const textareaId = `lintasProgram-${activity.id}-${index}-manualText`;
+                    toggleManualTextarea(textareaId, value);
+                }
+            }
+        }
+
+        // Function to add a new Lintas Sektor entry
+        function addLintasSektor(activityId) {
+            const activity = activities.find(a => a.id === activityId);
+            if (activity) {
+                activity.lintasSektor.push({ identifikasi: false, manual: false, manualText: '' });
+                renderCaraMelaksanakanSection(); // Re-render section VI to update
+                updatePrompt();
+            }
+        }
+
+        // Function to remove a Lintas Sektor entry
+        function removeLintasSektor(activityId, index) {
+            const activity = activities.find(a => a.id === activityId);
+            if (activity && activity.lintasSektor.length > 0) {
+                activity.lintasSektor.splice(index, 1);
+                renderCaraMelaksanakanSection();
+                updatePrompt();
+            }
+        }
+
+        // Function to update Lintas Sektor data (checkboxes, manual text)
+        function updateLintasSektorData(activityId, index, field, value) {
+            const activity = activities.find(a => a.id === activityId);
+            if (activity && activity.lintasSektor[index]) {
+                activity.lintasSektor[index][field] = value;
+                updatePrompt();
+                if (field === 'manual') {
+                    // Toggle visibility of the associated textarea for manual role
+                    const textareaId = `lintasSektor-${activity.id}-${index}-manualText`;
+                    toggleManualTextarea(textareaId, value);
+                }
+            }
+        }
+
+        // Function to remove a Kegiatan Pokok entirely
+        function removeKegiatanPokok(activityId) {
+            activities = activities.filter(a => a.id !== activityId);
+            renderAllSections();
+            updatePrompt();
+        }
+
+        // Render functions for each section
+        function renderKegiatanSection() {
+            const container = document.getElementById('kegiatanListContainer');
+            container.innerHTML = ''; // Clear existing content
+
+            if (activities.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 mb-4">Belum ada kegiatan pokok yang ditambahkan.</p>';
+                return;
+            }
+
+            activities.forEach((activity, activityIndex) => {
+                const activityBlock = document.createElement('div');
+                activityBlock.classList.add('activity-block');
+                activityBlock.innerHTML = `
+                    <h3 class="font-semibold text-blue-600 mb-3">Kegiatan Pokok ${activityIndex + 1}</h3>
+                    <div class="flex-container">
+                        <div class="flex-item">
+                            <label>Nama Kegiatan Pokok:</label>
+                            <input type="text" class="kegiatanPokokInput"
+                                data-activity-id="${activity.id}"
+                                value="${activity.pokok}"
+                                placeholder="Contoh: Penyuluhan Gizi"
+                                oninput="updateActivityData(this.dataset.activityId, 'pokok', this.value)">
+                        </div>
+                    </div>
+                    <label class="mt-4">Rincian Kegiatan:</label>
+                    <div id="rincian-${activity.id}-container">
+                        ${activity.rincian.map((rincianText, rincianIndex) => `
+                            <div class="rincian-item">
+                                <input type="text"
+                                    data-activity-id="${activity.id}"
+                                    data-rincian-index="${rincianIndex}"
+                                    value="${rincianText}"
+                                    placeholder="Contoh: Materi, leaflet"
+                                    oninput="updateRincianData(this.dataset.activityId, this.dataset.rincianIndex, this.value)">
+                                ${activity.rincian.length > 1 ? `<button onclick="removeRincian('${activity.id}', ${rincianIndex})" class="remove-button">Hapus</button>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button onclick="addRincian('${activity.id}')" class="add-button">Tambah Rincian</button>
+                    ${activities.length > 1 ? `<button onclick="removeKegiatanPokok('${activity.id}')" class="remove-button ml-2">Hapus Kegiatan Ini</button>` : ''}
+                `;
+                container.appendChild(activityBlock);
+            });
+        }
+
+        function renderCaraMelaksanakanSection() {
+            const container = document.getElementById('caraMelaksanakanContainer');
+            container.innerHTML = '';
+
+            if (activities.length === 0) {
+                container.innerHTML = '<p class="text-gray-500">Tidak ada kegiatan pokok yang ditambahkan di Bab V.</p>';
+                return;
+            }
+
+            activities.forEach((activity, index) => {
+                const activityDetailBlock = document.createElement('div');
+                activityDetailBlock.classList.add('activity-block');
+                activityDetailBlock.innerHTML = `
+                    <h3 class="font-semibold mb-3">Kegiatan Pokok ${index + 1}: <span class="text-blue-600">${activity.pokok || '[Kegiatan Pokok]'}</span></h3>
+                    <label>Pelaksana utama:</label>
+                    <input type="text"
+                        data-activity-id="${activity.id}"
+                        value="${activity.pelaksana}"
+                        placeholder="Contoh: Tenaga Gizi Puskesmas"
+                        oninput="updateActivityData(this.dataset.activityId, 'pelaksana', this.value)">
+                    <label>Peran Pelaksana utama:</label>
+                    <textarea
+                        data-activity-id="${activity.id}"
+                        placeholder="Contoh: Bertanggung jawab penuh atas perencanaan, pelaksanaan, dan pelaporan kegiatan."
+                        oninput="updateActivityData(this.dataset.activityId, 'peranPelaksana', this.value)">${activity.peranPelaksana}</textarea>
+
+                    <h4 class="font-semibold mt-4 mb-2">Lintas Program dan perannya:</h4>
+                    <div id="lintas-program-${activity.id}-container">
+                        ${activity.lintasProgram.map((lp, lpIndex) => `
+                            <div class="lintas-group-wrapper">
+                                <div class="lintas-entry-option">
+                                    <input type="checkbox" id="lp-${activity.id}-${lpIndex}-identifikasi"
+                                        data-activity-id="${activity.id}"
+                                        data-lp-index="${lpIndex}"
+                                        data-field="identifikasi"
+                                        ${lp.identifikasi ? 'checked' : ''}
+                                        onchange="updateLintasProgramData(this.dataset.activityId, ${lpIndex}, 'identifikasi', this.checked);"> <label for="lp-${activity.id}-${lpIndex}-identifikasi">Tolong identifikasi LP dan perannya</label>
+                                </div>
+                                <div class="lintas-entry-option">
+                                    <input type="checkbox" id="lp-${activity.id}-${lpIndex}-manual"
+                                        data-activity-id="${activity.id}"
+                                        data-lp-index="${lpIndex}"
+                                        data-field="manual"
+                                        ${lp.manual ? 'checked' : ''}
+                                        onchange="toggleManualTextarea('lintasProgram-${activity.id}-${lpIndex}-manualText', this.checked); updateLintasProgramData(this.dataset.activityId, ${lpIndex}, 'manual', this.checked);"> <label for="lp-${activity.id}-${lpIndex}-manual">Manual LP dan perannya</label>
+                                    <textarea id="lintasProgram-${activity.id}-${lpIndex}-manualText" class="lintas-manual-textarea ${lp.manual ? '' : 'hidden'}"
+                                        placeholder="Contoh: Nama Program: Promosi Kesehatan, Peran: Melakukan sosialisasi..."
+                                        oninput="updateLintasProgramData(this.dataset.activityId, ${lpIndex}, 'manualText', this.value)">${lp.manualText}</textarea>
+                                </div>
+                                ${activity.lintasProgram.length > 0 ? `<button onclick="removeLintasProgram('${activity.id}', ${lpIndex})" class="remove-button mt-2">Hapus Program Ini</button>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button onclick="addLintasProgram('${activity.id}')" class="add-button">Tambah Lintas Program</button>
+
+                    <h4 class="font-semibold mt-4 mb-2">Lintas Sektor dan perannya:</h4>
+                    <div id="lintas-sektor-${activity.id}-container">
+                        ${activity.lintasSektor.map((ls, lsIndex) => `
+                            <div class="lintas-group-wrapper">
+                                <div class="lintas-entry-option">
+                                    <input type="checkbox" id="ls-${activity.id}-${lsIndex}-identifikasi"
+                                        data-activity-id="${activity.id}"
+                                        data-ls-index="${lsIndex}"
+                                        data-field="identifikasi"
+                                        ${ls.identifikasi ? 'checked' : ''}
+                                        onchange="updateLintasSektorData(this.dataset.activityId, ${lsIndex}, 'identifikasi', this.checked);"> <label for="ls-${activity.id}-${lsIndex}-identifikasi">Tolong identifikasi LS dan perannya</label>
+                                </div>
+                                <div class="lintas-entry-option">
+                                    <input type="checkbox" id="ls-${activity.id}-${lsIndex}-manual"
+                                        data-activity-id="${activity.id}"
+                                        data-ls-index="${lsIndex}"
+                                        data-field="manual"
+                                        ${ls.manual ? 'checked' : ''}
+                                        onchange="toggleManualTextarea('lintasSektor-${activity.id}-${lsIndex}-manualText', this.checked); updateLintasSektorData(this.dataset.activityId, ${lsIndex}, 'manual', this.checked);"> <label for="ls-${activity.id}-${lsIndex}-manual">Manual LS dan perannya</label>
+                                    <textarea id="lintasSektor-${activity.id}-${lsIndex}-manualText" class="lintas-manual-textarea ${ls.manual ? '' : 'hidden'}"
+                                        placeholder="Contoh: Nama Sektor: Kantor Desa, Peran: Menyediakan tempat dan fasilitasi..."
+                                        oninput="updateLintasSektorData(this.dataset.activityId, ${lsIndex}, 'manualText', this.value)">${ls.manualText}</textarea>
+                                </div>
+                                ${activity.lintasSektor.length > 0 ? `<button onclick="removeLintasSektor('${activity.id}', ${lsIndex})" class="remove-button mt-2">Hapus Sektor Ini</button>` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <button onclick="addLintasSektor('${activity.id}')" class="add-button">Tambah Lintas Sektor</button>
+
+                    <label class="mt-4">Lokasi & waktu:</label>
+                    <input type="text"
+                        data-activity-id="${activity.id}"
+                        value="${activity.lokasiWaktu}"
+                        placeholder="Contoh: Aula Balai Desa Maju, Minggu ke-2 bulan Agustus"
+                        oninput="updateActivityData(this.dataset.activityId, 'lokasiWaktu', this.value)">
+
+                    <label>Alat/bahan:</label>
+                    <textarea
+                        data-activity-id="${activity.id}"
+                        placeholder="Contoh: LCD proyektor, laptop, ATK, food model, leaflet"
+                        oninput="updateActivityData(this.dataset.activityId, 'alatBahan', this.value)">${activity.alatBahan}</textarea>
+
+                    <label>Sumber biaya:</label>
+                    <input type="text"
+                        data-activity-id="${activity.id}"
+                        value="${activity.sumberBiaya}"
+                        placeholder="Contoh: BOK Tahun 2024"
+                        oninput="updateActivityData(this.dataset.activityId, 'sumberBiaya', this.value)">
+                `;
+                container.appendChild(activityDetailBlock);
+            });
+        }
+
+        function renderJadwalSection() {
+            const container = document.getElementById('jadwalGanttContainer');
+            container.innerHTML = '';
+
+            if (activities.length === 0) {
+                container.innerHTML = '<p class="text-gray-500">Tidak ada kegiatan pokok yang ditambahkan di Bab V.</p>';
+                return;
+            }
+
+            const table = document.createElement('table');
+            table.classList.add('gantt-table');
+
+            // Table Header
+            let headerHtml = '<thead><tr><th>Kegiatan Pokok</th>';
+            months.forEach(month => {
+                headerHtml += `<th>${month}</th>`;
+            });
+            headerHtml += '</tr></thead>';
+            table.innerHTML = headerHtml;
+
+            // Table Body
+            let bodyHtml = '<tbody>';
+            activities.forEach(activity => {
+                bodyHtml += `<tr><td>${activity.pokok || '[Kegiatan Pokok]'}</td>`;
+                months.forEach(month => {
+                    const isChecked = activity.jadwal[month] ? 'checked' : '';
+                    bodyHtml += `<td>
+                                    <div class="single-checkbox">
+                                        <input type="checkbox"
+                                            data-activity-id="${activity.id}"
+                                            data-month="${month}"
+                                            ${isChecked}
+                                            onchange="updateJadwalData(this.dataset.activityId, this.dataset.month, this.checked)">
+                                    </div>
+                                </td>`;
+                });
+                bodyHtml += '</tr>';
+            });
+            bodyHtml += '</tbody>';
+            table.innerHTML += bodyHtml;
+            container.appendChild(table);
+        }
+
+        // Universal data update functions
+        function updateActivityData(activityId, key, value) {
+            const activity = activities.find(a => a.id === activityId);
+            if (activity) {
+                activity[key] = value;
+                updatePrompt();
+                // Re-render sections that might display activity names if 'pokok' changes
+                if (key === 'pokok') {
+                    renderCaraMelaksanakanSection();
+                    renderJadwalSection();
+                }
+            }
+        }
+
+        function updateRincianData(activityId, rincianIndex, value) {
+            const activity = activities.find(a => a.id === activityId);
+            if (activity && activity.rincian[rincianIndex] !== undefined) {
+                activity.rincian[rincianIndex] = value;
+                updatePrompt();
+            }
+        }
+
+        function updateJadwalData(activityId, month, isChecked) {
+            const activity = activities.find(a => a.id === activityId);
+            if (activity) {
+                activity.jadwal[month] = isChecked;
+                updatePrompt();
+            }
+        }
+
+        // Orchestrates all rendering and prompt generation
+        function renderAllSections() {
+            renderKegiatanSection();
+            renderCaraMelaksanakanSection();
+            renderJadwalSection();
+        }
+
+        // Function to generate the prompt text
+        function generatePrompt() {
+            // Get general KAK info
+            const namaPuskesmas = document.getElementById('namaPuskesmas').value || '[Nama Puskesmas]';
+            const cluster = document.getElementById('cluster').value || '[Klaster]'; // Read from select
+            const program = document.getElementById('program').value || '[Program]';
+            const namaKegiatan = document.getElementById('namaKegiatan').value || '[Nama/Judul Kegiatan]';
+            const tahun = document.getElementById('tahun').value || '[Tahun]';
+
+            let prompt = `Buatkan Kerangka Acuan Kegiatan (KAK) untuk Puskesmas ${namaPuskesmas}, pada klaster ${cluster}, program ${program}, dengan judul kegiatan "${namaKegiatan}", tahun ${tahun}. `;
+            prompt += `Format output adalah dokumen Word (.docx) yang lengkap dan siap digunakan, dengan struktur sebagai berikut:\n\n`;
+
+            // I. Pendahuluan
+            prompt += `I. Pendahuluan: tolong buat lebih detail dan lebih jelas\n`;
+            prompt += `- Gambaran umum kegiatan: ${document.getElementById('jenisKegiatan').value || '[Jenis Kegiatan]'}\n`;
+            
+            const pentingIdentifikasiChecked = document.getElementById('pentingIdentifikasiCheck').checked;
+            const pentingManualChecked = document.getElementById('pentingManualCheck').checked;
+            const pentingManualText = document.getElementById('pentingnyaKegiatanManualText').value;
+
+            prompt += `- Urgensi kegiatan:\n`;
+            if (pentingIdentifikasiChecked) {
+                prompt += `  - Tolong identifikasi\n`;
+            }
+            if (pentingManualChecked) {
+                prompt += `  - Manual: ${pentingManualText.trim() !== '' ? pentingManualText : '[Isian Manual]'}\n`;
+            }
+            if (!pentingIdentifikasiChecked && !pentingManualChecked) {
+                prompt += `  - [Pentingnya Kegiatan]\n`;
+            }
+
+            const masalahIdentifikasiChecked = document.getElementById('masalahIdentifikasiCheck').checked;
+            const masalahManualChecked = document.getElementById('masalahManualCheck').checked;
+            const masalahManualText = document.getElementById('masalahUmumManualText').value;
+
+            prompt += `- Masalah umum di masyarakat:\n`;
+            if (masalahIdentifikasiChecked) {
+                prompt += `  - Tolong identifikasi\n`;
+            }
+            if (masalahManualChecked) {
+                prompt += `  - Manual: ${masalahManualText.trim() !== '' ? masalahManualText : '[Isian Manual]'}\n`;
+            }
+            if (!masalahIdentifikasiChecked && !masalahManualChecked) {
+                prompt += `  - [Masalah Umum]\n`;
+            }
+            
+            prompt += `- Hubungan dengan visi/misi Puskesmas: ${document.getElementById('visiMisiPuskesmas').value || '[Visi/Misi Puskesmas]'}\n\n`;
+
+            // II. Latar Belakang
+            prompt += `II. Latar Belakang: tolong buat lebih detail dan lebih jelas\n`;
+            prompt += `- Data wilayah: ${document.getElementById('dataWilayah').value || '[Data Wilayah]'}\n`;
+            prompt += `- Data capaian sebelumnya: ${document.getElementById('dataCapaianSebelumnya').value || '[Data Capaian Sebelumnya]'}\n`;
+            prompt += `- Dasar penyusunan: ${document.getElementById('dasarPenyusunan').value || '[Dasar Penyusunan]'}\n\n`;
+
+            // III. Tujuan
+            prompt += `III. Tujuan\n`;
+            prompt += `A. Tujuan Umum: ${document.getElementById('tujuanUmum').value || '[Tujuan Umum]'}\n`;
+            prompt += `B. Tujuan Khusus: ${document.getElementById('tujuanKhusus').value || '[Tujuan Khusus]'}\n\n`;
+
+            // IV. Sasaran
+            prompt += `IV. Sasaran\n`;
+            prompt += `- Target kegiatan: ${document.getElementById('targetKegiatan').value || '[Target Kegiatan]'}\n\n`;
+
+            // V. Kegiatan Pokok dan Rincian Kegiatan
+            prompt += `V. Kegiatan Pokok dan Rincian Kegiatan\n`;
+            prompt += `Bagian ini menjelaskan secara rinci kegiatan-kegiatan utama yang akan dilaksanakan beserta dengan rincian pelaksanaannya untuk mencapai tujuan yang telah ditetapkan. Mohon sajikan dalam format tabel yang rapi:\n`;
+            prompt += `No | Kegiatan Pokok | Rincian Kegiatan\n`;
+            prompt += `--- | --- | ---\n`; // Markdown table header separator
+            if (activities.length > 0) {
+                activities.forEach((activity, i) => {
+                    const rincianList = activity.rincian.filter(r => r.trim() !== '').map(r => r.trim()).join('; ');
+                    prompt += `${i + 1} | ${activity.pokok || '[Kegiatan Pokok]'} | ${rincianList || '[Rincian Kegiatan]'}\n`;
+                });
+            } else {
+                prompt += `1 | [Kegiatan Pokok] | [Rincian Kegiatan]\n`;
+            }
+            prompt += `\n`;
+
+            // VI. Cara Melaksanakan Kegiatan dan Dukungan
+            prompt += `VI. Cara Melaksanakan Kegiatan dan Dukungan\n`;
+            prompt += `Bagian ini menguraikan bagaimana setiap kegiatan pokok yang tercantum dalam Bab V akan dilaksanakan, termasuk pihak-pihak yang bertanggung jawab, lokasi, waktu, serta sumber daya yang diperlukan. Mohon sajikan dalam bentuk narasi yang jelas untuk setiap kegiatan, mengacu pada kegiatan di Bab V:\n`;
+            if (activities.length > 0) {
+                activities.forEach((activity, index) => {
+                    prompt += `\n**Kegiatan Pokok ${index + 1}: ${activity.pokok || '[Kegiatan Pokok]'}**\n`;
+                    prompt += `- Pelaksana utama: ${activity.pelaksana || '[Pelaksana Utama]'} (Peran: ${activity.peranPelaksana || '[Peran Pelaksana Utama]'}) \n`;
+                    
+                    if (activity.lintasProgram.length > 0 && activity.lintasProgram.some(lp => lp.identifikasi || lp.manual)) {
+                        prompt += `- Lintas Program dan perannya:\n`;
+                        activity.lintasProgram.forEach(lp => {
+                            let peranInfo = [];
+                            if (lp.identifikasi) peranInfo.push('Tolong identifikasi LP dan perannya');
+                            if (lp.manual) peranInfo.push(`Manual LP dan perannya: ${lp.manualText.trim() !== '' ? lp.manualText : '[Isian Manual]'}`);
+                            
+                            if (peranInfo.length > 0) {
+                                prompt += `  - ${peranInfo.join('; ')}\n`;
+                            } else {
+                                prompt += `  - [Pilihan Lintas Program tidak terisi]\n`;
+                            }
+                        });
+                    } else {
+                        prompt += `  - Lintas Program: [Tidak ada atau tidak terisi]\n`;
+                    }
+
+                    if (activity.lintasSektor.length > 0 && activity.lintasSektor.some(ls => ls.identifikasi || ls.manual)) {
+                        prompt += `- Lintas Sektor dan perannya:\n`;
+                        activity.lintasSektor.forEach(ls => {
+                            let peranInfo = [];
+                            if (ls.identifikasi) peranInfo.push('Tolong identifikasi LS dan perannya');
+                            if (ls.manual) peranInfo.push(`Manual LS dan perannya: ${ls.manualText.trim() !== '' ? ls.manualText : '[Isian Manual]'}`);
+                            
+                            if (peranInfo.length > 0) {
+                                prompt += `  - ${peranInfo.join('; ')}\n`;
+                            } else {
+                                prompt += `  - [Pilihan Lintas Sektor tidak terisi]\n`;
+                            }
+                        });
+                    } else {
+                        prompt += `  - Lintas Sektor: [Tidak ada atau tidak terisi]\n`;
+                    }
+
+
+                    prompt += `- Lokasi & waktu: ${activity.lokasiWaktu || '[Lokasi & Waktu]'}\n`;
+                    prompt += `- Alat/bahan: ${activity.alatBahan || '[Alat/Bahan]'}\n`;
+                    prompt += `- Sumber biaya: ${activity.sumberBiaya || '[Sumber Biaya]'}\n`;
+                });
+            } else {
+                prompt += `- Pelaksana utama: [Pelaksana Utama] (Peran: [Peran Pelaksana Utama])\n`;
+                prompt += `- Lintas Program dan perannya: [Tidak ada atau tidak terisi]\n`;
+                prompt += `- Lintas Sektor dan perannya: [Tidak ada atau tidak terisi]\n`;
+                prompt += `- Lokasi & waktu: [Lokasi & Waktu]\n`;
+                prompt += `- Alat/bahan: [Alat/Bahan]\n`;
+                prompt += `- Sumber biaya: [Sumber Biaya]\n`;
+            }
+            prompt += `\n`;
+
+            // VII. Jadwal Kegiatan
+            prompt += `VII. Jadwal Kegiatan\n`;
+            prompt += `Untuk memastikan pelaksanaan kegiatan yang terencana dan terkoordinasi, berikut adalah jadwal kegiatan tahunan dalam format tabel Gantt. Tandai dengan 'X' pada bulan pelaksanaan setiap kegiatan pokok yang tercantum di Bab V. Mohon sajikan dalam format tabel Gantt yang rapi di dokumen Word:\n`;
+            prompt += `Kegiatan Pokok | ${months.join(' | ')}\n`;
+            prompt += `--- | ${months.map(() => '---').join(' | ')}\n`; // Separator line for markdown table
+            if (activities.length > 0) {
+                activities.forEach(activity => {
+                    const jadwalRow = months.map(month => activity.jadwal[month] ? 'X' : ' ').join(' | ');
+                    prompt += `${activity.pokok || '[Kegiatan Pokok]'} | ${jadwalRow}\n`;
+                });
+            } else {
+                prompt += `[Kegiatan Pokok] | ${months.map(() => ' ').join(' | ')}\n`;
+            }
+            prompt += `\n`;
+
+            // VIII. Evaluasi Pelaksanaan dan Pelaporan
+            prompt += `VIII. Evaluasi Pelaksanaan dan Pelaporan\n`;
+            prompt += `- Bagaimana evaluasinya?: ${document.getElementById('bagaimanaEvaluasi').value || '[Bagaimana Evaluasi]'}\n`;
+            prompt += `- Siapa yang evaluasi?: ${document.getElementById('siapaEvaluasi').value || '[Siapa Evaluasi]'}\n`;
+            prompt += `- Kapan lapor?: ${document.getElementById('kapanLapor').value || '[Kapan Lapor]'}\n`;
+            prompt += `- Lapor ke siapa?: ${document.getElementById('laporSiapa').value || '[Lapor Ke Siapa]'}\n\n`;
+
+            // IX. Pencatatan, Pelaporan, dan Evaluasi Kegiatan
+            prompt += `IX. Pencatatan, Pelaporan, dan Evaluasi Kegiatan\n`;
+            prompt += `- Format register: ${document.getElementById('formatRegister').value || '[Format Register]'}\n`;
+            prompt += `- Jadwal pelaporan: ${document.getElementById('jadwalPelaporan').value || '[Jadwal Pelaporan]'}\n`;
+            prompt += `- Evaluasi berkala: ${document.getElementById('evaluasiBerkala').value || '[Evaluasi Berkala]'}\n`;
+
+            document.getElementById('generatedPrompt').textContent = prompt;
+        }
+
+        // Fungsi untuk menyalin prompt ke clipboard
+        function copyPrompt() {
+            const promptText = document.getElementById('generatedPrompt').textContent;
+            const messageBox = document.getElementById('messageBox');
+            try {
+                const textarea = document.createElement('textarea');
+                textarea.value = promptText;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+
+                messageBox.style.display = 'block';
+                setTimeout(() => {
+                    messageBox.style.display = 'none';
+                }, 3000);
+            } catch (err) {
+                console.error('Gagal menyalin:', err);
+                messageBox.textContent = 'Gagal menyalin prompt.';
+                messageBox.style.backgroundColor = '#f8d7da';
+                messageBox.style.color = '#721c24';
+                messageBox.style.display = 'block';
+                setTimeout(() => {
+                    messageBox.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        // Initial setup
+        function updatePrompt() {
+            generatePrompt();
+            // Ensure manual textareas are hidden/shown on initial load based on checkbox state
+            toggleManualTextarea('pentingnyaKegiatanManualText', document.getElementById('pentingManualCheck').checked);
+            toggleManualTextarea('masalahUmumManualText', document.getElementById('masalahManualCheck').checked);
+
+            // Also for Lintas Program/Sektor manual textareas
+            activities.forEach(activity => {
+                activity.lintasProgram.forEach((lp, idx) => {
+                    toggleManualTextarea(`lintasProgram-${activity.id}-${idx}-manualText`, lp.manual);
+                });
+                activity.lintasSektor.forEach((ls, idx) => {
+                    toggleManualTextarea(`lintasSektor-${activity.id}-${idx}-manualText`, ls.manual);
+                });
+            });
+        }
+
+        window.onload = () => {
+            if (activities.length === 0) {
+                addKegiatanPokok(); // Add one initial activity when loaded
+            } else {
+                renderAllSections();
+            }
+            updatePrompt();
+        };
+    </script>
+</body>
+</html>
